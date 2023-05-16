@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.
 
-
 connection_parameters = {
   "account": os.getenv('SNOWFLAKE_ACCOUNT'),
   "user": os.getenv('SNOWFLAKE_USERNAME'),
@@ -18,22 +17,24 @@ connection_parameters = {
 
 my_session = Session.builder.configs(connection_parameters).create()
 
-
-def create_tables(session: snowpark.Session):
-    sql_text = ''' 
-                CREATE OR REPLACE TABLE TEST (
-                customer_id int,
-                first_name varchar,
-                last_name varchar
-                );
-          '''
-    print(session.sql(sql_text).collect())
     
 def drop_tables(session: snowpark.Session):
     sql_text = '''
-                DROP TABLE TEST;
+                DROP TABLE TEST1;
+                DROP TABLE TEST2;
+                DROP TABLE TEST3;
          '''
     print(session.sql(sql_text).collect())
+    
+    
+def create_tables(session: snowpark.Session):
+    with open('table_ddl.txt', encoding='utf8') as f:
+        table_ddl = f.read().split('\n\n')
+        for ddl in table_ddl:
+            result = session.sql(ddl).collect()
+            print(result)       
+
+    
 
 def main(session: snowpark.Session):
     
@@ -44,10 +45,11 @@ def main(session: snowpark.Session):
 
     # # Print a sample of the dataframe to standard output.
     # dataframe.show()
-
+  
     # Return value will appear in the Results tab.
+    #create_tables(session)
+    #drop_tables(session)
     create_tables(session)
-    drop_tables(session)
 
 
 main(my_session)
