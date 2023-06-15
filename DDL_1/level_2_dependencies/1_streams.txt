@@ -1,0 +1,7 @@
+use FINANCIAL_DATA.PUBLIC;
+
+create or replace stream new_tcbk_statements on table tcbk_statements;
+
+create or replace stream new_boa_statements on table boa_statements;
+
+create or replace stream new_disc_statements on table disc_statements;

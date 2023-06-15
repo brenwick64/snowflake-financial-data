@@ -2,7 +2,7 @@ import os
 from snowflake import snowpark
 from dotenv import load_dotenv
 
-from TCBKController import TCBKController
+from modules.TCBKController import TCBKController
 
 load_dotenv()  # take environment variables from .env.
 DDL_DIRECTORY_PATH = '/home/brenwick/snowflake-financial-data/DDL'
@@ -23,7 +23,7 @@ snowflake_session = snowpark.Session.builder.configs(connection_parameters).crea
 
 def main(session: snowpark.Session):
     controller = TCBKController()
-    tcbk_statements_df = session.table('financial_data.raw_statements.tcbk_statements').to_pandas()
+    tcbk_statements_df = session.table('financial_data.public.tcbk_statements').to_pandas()
     tcbk_transaction_df = controller.create_transaction(tcbk_statements_df)
     print(tcbk_transaction_df.head())
     return session.create_dataframe(tcbk_transaction_df)

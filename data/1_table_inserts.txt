@@ -1,0 +1,16 @@
+insert into FINANCIAL_ACCOUNTS
+values
+('2023-01-30', '2007', 'TCBK', 'Checking', 'Brandon', '2456.77'),
+('2023-01-30', '1830', 'BOA', 'Checking', 'Linnea', '10405.22'),
+('2023-01-30', '0089', 'DISC', 'Credit Card', 'Linnea', '15203.36');
+
+insert into PROJECTED_EXPENSES
+values
+('Rent', '3850.00'),
+('Groceries', '1250.00'),
+('Gifts/Events', '80.00'),
+('Eating Out', '350.00'),
+('Shopping', '400'),
+('Gas/Bills', '730.00'),
+('Savings/Investments', '200.00'),
+('Subscriptions', '83.91');

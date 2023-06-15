@@ -1,0 +1,12 @@
+create or replace task FINANCIAL_DATA.PUBLIC.LOAD_NEW_TCBK
+	warehouse=COMPUTE_WH
+	schedule='1 minute'
+	when SYSTEM$STREAM_HAS_DATA('NEW_TCBK_STATEMENTS')
+	as 
+	BEGIN
+		call tcbk_statements_to_transactions();
+		create temporary table stream_purge as select * from new_tcbk_statements;
+		drop table stream_purge;
+	END;
+
+alter task FINANCIAL_DATA.PUBLIC.LOAD_NEW_TCBK resume;
