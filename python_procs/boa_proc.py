@@ -2,7 +2,7 @@ import os
 from snowflake import snowpark
 from dotenv import load_dotenv
 
-from modules.TCBKController import TCBKController
+from modules.BOAController import BOAController
 
 load_dotenv()  # take environment variables from .env.
 
@@ -19,10 +19,11 @@ connection_parameters = {
 snowflake_session = snowpark.Session.builder.configs(connection_parameters).create()
 
 def main(session: snowpark.Session):
-    controller = TCBKController()
-    tcbk_statements_df = session.table('financial_data.public.tcbk_statements').to_pandas()
-    tcbk_transaction_df = controller.create_transaction(tcbk_statements_df)
-    print(tcbk_transaction_df.head())
-    return session.create_dataframe(tcbk_transaction_df)
+    controller = BOAController()
+    boa_statements_df = session.table('financial_data.public.boa_statements').to_pandas()
+    boa_transaction_df = controller.create_transaction(boa_statements_df)
+    print(boa_transaction_df.head())
+    return session.create_dataframe(boa_transaction_df)
+
 
 main(snowflake_session)

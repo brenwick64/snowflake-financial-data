@@ -1,9 +1,0 @@
-use FINANCIAL_DATA.PUBLIC;
-
-create or replace stage boa_statement_stage;
-
-create or replace stage tcbk_statement_stage;
-
-create or replace stage disc_statement_stage;
-
-create or replace stage python_modules;
