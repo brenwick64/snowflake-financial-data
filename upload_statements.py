@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.
 
-BANKS = ['disc']
+BANKS = ['tcbk', 'boa', 'disc']
 STATEMENTS_BASE_PATH = '/home/brenwick/snowflake-financial-data/statements'
 
 connection_parameters = {
@@ -36,7 +36,6 @@ def upload_statement_to_stage(session: Session, bank_name: str):
         file_path = os.path.join(statement_folder_path, file_name)
         result = session.file.put(local_file_name=file_path, stage_location=stage_name)
         print(f'File Result: {result[0].status}: {file_name} To: {stage_name}')
-
 
 
 def main(session: Session):

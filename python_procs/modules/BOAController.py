@@ -2,7 +2,8 @@ import pandas as pd
 
 class BOAController:
     def __init__(self):
-        self.target_schema = ['ACCOUNT_NUMBER', 'DATE', 'DESCRIPTION', 'TYPE', 'AMOUNT', 'BALANCE']
+        self.target_schema = ['SOURCE_SYSTEM', 'ACCOUNT_NUMBER', 'DATE', 'DESCRIPTION', 'TYPE', 'AMOUNT', 'CATEGORY', 'BALANCE']
+        self.source_system = 'BOA'
         self.account_number = '0000'
         
     def __get_amount(self, amount):
@@ -27,10 +28,12 @@ class BOAController:
         transactions_df = pd.DataFrame(columns=self.target_schema)
         transactions_df['DESCRIPTION'] = statement_df['DESCRIPTION']
         transactions_df['DATE'] = statement_df['DATE']
+        transactions_df['SOURCE_SYSTEM'] = self.source_system
         transactions_df['ACCOUNT_NUMBER'] = self.account_number
         transactions_df['TYPE'] = statement_df.apply(lambda x: self.__get_type(x['AMOUNT']), axis=1)
         transactions_df['AMOUNT'] = statement_df.apply(lambda x: self.__get_amount(x['AMOUNT']), axis=1)
         transactions_df['BALANCE'] = statement_df.apply(lambda x: self.__get_balance(x['RUNNING_BALANCE']), axis=1)
+        transactions_df['CATEGORY'] = statement_df['CATEGORY']
         
         # Removes null amount rows (bad data)      
         return transactions_df[transactions_df['AMOUNT'].notna()]

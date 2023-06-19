@@ -41,8 +41,9 @@ def execute_folder_ddl(session: Session, directory: str):
     print(f'\nExecuting all SQL in {directory}\n')
     
     # Iterate through subfolders
-    for subfolder in os.listdir(directory):
+    for subfolder in sorted(os.listdir(directory)):
         subfolder_path = os.path.join(directory, subfolder)
+        print(subfolder)
         
         # Iterate through files
         for file_path in os.listdir(subfolder_path):
@@ -68,7 +69,6 @@ def main(session: Session):
     execute_folder_ddl(session, DDL_1_DIRECTORY_PATH)
     upload_files_to_stage(session, PYTHON_MODULES_PATH, '@PYTHON_MODULES')
     execute_folder_ddl(session, DDL_2_DIRECTORY_PATH)
-    
 
 if __name__ == '__main__':
     main(snowflake_session)
