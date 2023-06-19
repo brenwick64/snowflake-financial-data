@@ -22,3 +22,15 @@ create or replace task FINANCIAL_DATA.PUBLIC.LOAD_NEW_BOA
 	END;
 
 alter task FINANCIAL_DATA.PUBLIC.LOAD_NEW_BOA resume;
+
+create or replace task FINANCIAL_DATA.PUBLIC.LOAD_NEW_DISC
+	warehouse=COMPUTE_WH
+	schedule='1 minute'
+	when SYSTEM$STREAM_HAS_DATA('NEW_DISC_STATEMENTS')
+	as BEGIN
+		call disc_statements_to_transactions();
+		create temporary table stream_purge as select * from new_disc_statements;
+		drop table stream_purge;
+	END;
+
+alter task FINANCIAL_DATA.PUBLIC.LOAD_NEW_DISC resume;

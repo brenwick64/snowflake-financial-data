@@ -37,3 +37,22 @@ def main(session: snowpark.Session):
     boa_snowpark_df = session.create_dataframe(boa_transaction_df)  
     result = boa_snowpark_df.write.mode("append").save_as_table(''RAW_TRANSACTIONS'')
     return boa_snowpark_df';
+
+CREATE OR REPLACE PROCEDURE DISC_STATEMENTS_TO_TRANSACTIONS()
+RETURNS TABLE ()
+LANGUAGE PYTHON
+RUNTIME_VERSION = '3.8'
+PACKAGES = ('snowflake-snowpark-python')
+HANDLER = 'main'
+IMPORTS = ('@FINANCIAL_DATA.PUBLIC.PYTHON_MODULES/DISCController.py')
+EXECUTE AS OWNER
+AS 'import snowflake.snowpark as snowpark
+from snowflake.snowpark.functions import col
+from DISCController import DISCController
+def main(session: snowpark.Session):
+    controller = DISCController()
+    disc_statements_df = session.table(''financial_data.public.new_disc_statements'').to_pandas()
+    disc_transaction_df = controller.create_transaction(disc_statements_df)
+    disc_snowpark_df = session.create_dataframe(disc_transaction_df)  
+    result = disc_snowpark_df.write.mode("append").save_as_table(''RAW_TRANSACTIONS'')
+    return disc_snowpark_df';
