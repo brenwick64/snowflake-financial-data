@@ -16,13 +16,20 @@ class DISCController:
             return float(amount.replace(',', ''))
         return None
     
+    def __get_type(self, amount):
+        if amount and amount[0] == '-':
+            return 'credit'
+        if amount and amount[0] != '-':
+            return 'debit'
+        return None  
+    
         
     def create_transaction(self, statement_df):
         transactions_df = pd.DataFrame(columns=self.target_schema)
         transactions_df['DESCRIPTION'] = statement_df['DESCRIPTION']
         transactions_df['DATE'] = statement_df['TRANSACTION_DATE']
         transactions_df['ACCOUNT_NUMBER'] = self.account_number
-        transactions_df['TYPE'] = 'debit'
+        transactions_df['TYPE'] = statement_df.apply(lambda x: self.__get_type(x['AMOUNT']), axis=1)
         transactions_df['SOURCE_SYSTEM'] = self.source_system
         transactions_df['AMOUNT'] = statement_df.apply(lambda x: self.__get_amount(x['AMOUNT']), axis=1)
         transactions_df['CATEGORY'] = statement_df['CATEGORY']

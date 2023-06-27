@@ -16,7 +16,7 @@ def main(session: snowpark.Session):
     tcbk_statements_df = session.table(''financial_data.public.new_tcbk_statements'').to_pandas()
     tcbk_transaction_df = controller.create_transaction(tcbk_statements_df)
     tcbk_snowpark_df = session.create_dataframe(tcbk_transaction_df)  
-    result = tcbk_snowpark_df.write.mode("append").save_as_table(''RAW_TRANSACTIONS'')
+    result = tcbk_snowpark_df.write.mode("append").save_as_table(''TRANSACTIONS'')
     return tcbk_snowpark_df';
 
 CREATE OR REPLACE PROCEDURE BOA_STATEMENTS_TO_TRANSACTIONS()
@@ -35,7 +35,7 @@ def main(session: snowpark.Session):
     boa_statements_df = session.table(''financial_data.public.new_boa_statements'').to_pandas()
     boa_transaction_df = controller.create_transaction(boa_statements_df)
     boa_snowpark_df = session.create_dataframe(boa_transaction_df)  
-    result = boa_snowpark_df.write.mode("append").save_as_table(''RAW_TRANSACTIONS'')
+    result = boa_snowpark_df.write.mode("append").save_as_table(''TRANSACTIONS'')
     return boa_snowpark_df';
 
 CREATE OR REPLACE PROCEDURE DISC_STATEMENTS_TO_TRANSACTIONS()
@@ -54,5 +54,5 @@ def main(session: snowpark.Session):
     disc_statements_df = session.table(''financial_data.public.new_disc_statements'').to_pandas()
     disc_transaction_df = controller.create_transaction(disc_statements_df)
     disc_snowpark_df = session.create_dataframe(disc_transaction_df)  
-    result = disc_snowpark_df.write.mode("append").save_as_table(''RAW_TRANSACTIONS'')
+    result = disc_snowpark_df.write.mode("append").save_as_table(''TRANSACTIONS'')
     return disc_snowpark_df';

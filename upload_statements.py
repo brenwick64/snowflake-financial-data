@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()  # take environment variables from .env.
 
 BANKS = ['tcbk', 'boa', 'disc']
-STATEMENTS_BASE_PATH = '/home/brenwick/snowflake-financial-data/statements'
+STATEMENTS_BASE_PATH = '/home/brenwick/snowflake-financial-data/reconciled_statements'
 
 connection_parameters = {
   "account": os.getenv('SNOWFLAKE_ACCOUNT'),

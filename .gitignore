@@ -6,7 +6,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
-/statements/
+/raw_statements/
+/reconciled_statements/
 /TODO/
 
 # C extensions
